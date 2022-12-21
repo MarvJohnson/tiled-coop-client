@@ -1,4 +1,4 @@
-import Channels from "pusher-js";
+import Channels from "pusher";
 
 const {
   APP_ID: appId,
