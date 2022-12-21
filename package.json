@@ -1,0 +1,28 @@
+{
+  "name": "tiled-coop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tiled-coop-client.js",
+  "config": {
+    "name": "tiled-coop-client"
+  },
+  "scripts": {
+    "compile-client": "nexe tiled-coop-client.js -t x64-8.16.0 -o dist/tiled-coop-client.exe",
+    "build": "npm run compile-client",
+    "start": "nodemon tiled-coop-server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "pusher-js": "^7.6.0",
+    "socket.io": "^4.5.4",
+    "socket.io-client": "^4.5.4"
+  },
+  "devDependencies": {
+    "@mapeditor/tiled-api": "^1.9.2"
+  }
+}
