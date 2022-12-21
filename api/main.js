@@ -1,4 +1,4 @@
-import Pusher from "pusher-js";
+import Pusher from "pusher";
 require("dotenv").config();
 
 const { PUSHER_KEY, PUSHER_CLUSTER } = process.env;

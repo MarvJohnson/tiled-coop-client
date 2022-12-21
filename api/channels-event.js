@@ -14,9 +14,10 @@ const channels = new Channels({
   cluster,
 });
 
-export default (req, res) => {
+export default async (req, res) => {
+  console.log("Received Data!");
   const data = req.body;
-  channels.trigger("test", "test", data, () => {
-    res.status(200).end("sent event successfully");
-  });
+  const channelResponse = await channels.trigger("test", "test", data);
+  console.log(channelResponse);
+  res.status(200).end("sent event successfully");
 };
