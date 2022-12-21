@@ -7,6 +7,7 @@
     "name": "tiled-coop-client"
   },
   "scripts": {
+    "compile-client": "nexe tiled-coop-client.js -t x64-8.16.0 -o dist/tiled-coop-client.exe",
     "build": "npm run compile-client",
     "start": "nodemon tiled-coop-server.js"
   },
