@@ -20,5 +20,5 @@ export default async (req, res) => {
 
   const authResponse = pusher.authenticateUser(socketID, { id: user });
 
-  res.status(200).end(authResponse);
+  res.status(200).send(authResponse);
 };
