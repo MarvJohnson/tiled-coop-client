@@ -1,4 +1,5 @@
 import Pusher from "pusher";
+import { v4 as uuidv4 } from "uuid";
 
 const {
   APP_ID: appId,
@@ -17,10 +18,12 @@ const pusher = new Pusher({
 
 export default async (req, res) => {
   const { socket_id: socketID, username: user } = req.body;
-
-  const formattedUserName = user.replace(/[^A-z0-9]/g, "");
+  const uuid = uuidv4({ random: [user] });
   const authResponse = pusher.authenticateUser(socketID, {
-    id: formattedUserName,
+    id: uuid,
+    user_info: {
+      user,
+    },
   });
 
   res.status(200).send(authResponse);
