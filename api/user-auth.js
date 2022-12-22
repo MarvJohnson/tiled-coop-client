@@ -18,7 +18,7 @@ const pusher = new Pusher({
 export default async (req, res) => {
   const { socket_id: socketID, username: user } = req.body;
 
-  const formattedUserName = user.replace(/[^A-z0-9 ]/g, "");
+  const formattedUserName = user.replace(/[^A-z0-9]/g, "");
   const authResponse = pusher.authenticateUser(socketID, {
     id: formattedUserName,
   });
