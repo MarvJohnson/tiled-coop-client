@@ -21,9 +21,7 @@ export default async (req, res) => {
   const uuid = uuidv4();
   const authResponse = pusher.authenticateUser(socketID, {
     id: uuid,
-    user_info: {
-      user,
-    },
+    user,
   });
 
   res.status(200).send(authResponse);
