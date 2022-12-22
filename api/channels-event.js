@@ -15,9 +15,22 @@ const channels = new Channels({
 });
 
 export default async (req, res) => {
-  console.log("Received Data!");
-  const data = req.body;
-  const channelResponse = await channels.trigger("test", "test", data);
-  console.log(channelResponse);
-  res.status(200).end("sent event successfully");
+  const { username: user, server, action, payload } = req.body;
+
+  switch (action) {
+    case "connection":
+      await channels.trigger(server, "new_user_connected", {
+        user,
+        newLayer: payload.initialLayer,
+      });
+      break;
+    case "layer_changed":
+      await channels.trigger(server, "user_layer_changed", {
+        user,
+        newLayer: payload.newLayer,
+      });
+      break;
+  }
+
+  res.status(200).end("Received message!");
 };

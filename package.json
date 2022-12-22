@@ -7,8 +7,9 @@
     "name": "tiled-coop-client"
   },
   "scripts": {
-    "compile-client": "nexe tiled-coop-client.js -t x64-8.16.0 -o dist/tiled-coop-client.exe",
-    "start": "nodemon tiled-coop-server.js"
+    "compile-client": "nexe tiled-coop-client.js -t x64-14.15.3 -o dist/tiled-coop-client.exe",
+    "start": "nodemon tiled-coop-server.js",
+    "build": "npm run compile-client"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +19,6 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "nodemon": "^2.0.20",
-    "pusher": "^5.1.2",
     "pusher-js": "^7.6.0",
     "socket.io": "^4.5.4",
     "socket.io-client": "^4.5.4"
