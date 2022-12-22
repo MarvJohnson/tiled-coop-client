@@ -15,22 +15,30 @@ const channels = new Channels({
 });
 
 export default async (req, res) => {
-  const { username: user, server, action, payload, ...rest } = req.body;
-
-  console.log(JSON.stringify(rest));
+  const { socketID, username: user, server, action, payload } = req.body;
 
   switch (action) {
     case "connection":
-      await channels.trigger(server, "new_user_connected", {
-        user,
-        initialLayer: payload.initialLayer,
-      });
+      await channels.trigger(
+        server,
+        "new_user_connected",
+        {
+          user,
+          initialLayer: payload.initialLayer,
+        },
+        { socket_id: socketID }
+      );
       break;
     case "layer_changed":
-      await channels.trigger(server, "user_layer_changed", {
-        user,
-        newLayer: payload.newLayer,
-      });
+      await channels.trigger(
+        server,
+        "user_layer_changed",
+        {
+          user,
+          newLayer: payload.newLayer,
+        },
+        { socket_id: socketID }
+      );
       break;
   }
 
