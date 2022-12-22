@@ -15,7 +15,9 @@ const channels = new Channels({
 });
 
 export default async (req, res) => {
-  const { username: user, server, action, payload } = req.body;
+  const { username: user, server, action, payload, ...rest } = req.body;
+
+  console.log(JSON.stringify(rest));
 
   switch (action) {
     case "connection":
