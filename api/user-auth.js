@@ -18,7 +18,7 @@ const pusher = new Pusher({
 
 export default async (req, res) => {
   const { socket_id: socketID, username: user } = req.body;
-  const uuid = uuidv4({ random: [user] });
+  const uuid = uuidv4();
   const authResponse = pusher.authenticateUser(socketID, {
     id: uuid,
     user_info: {
