@@ -16,7 +16,7 @@ const pusher = new Pusher({
 });
 
 export default async (req, res) => {
-  const { username: user, socketID } = req.body;
+  const { username: user, socket_id: socketID } = req.body;
 
   const authResponse = pusher.authenticateUser(socketID, { id: user });
 
