@@ -21,7 +21,7 @@ export default async (req, res) => {
     case "connection":
       await channels.trigger(server, "new_user_connected", {
         user,
-        newLayer: payload.initialLayer,
+        initialLayer: payload.initialLayer,
       });
       break;
     case "layer_changed":
