@@ -54,7 +54,7 @@ export default async (req, res) => {
       });
       break;
     case "layer_changed":
-      activeChannels[server][socketID].currentLayer = payload.newLayer;
+      activeChannels[server][payload.userID].currentLayer = payload.newLayer;
 
       await channels.trigger(
         server,
