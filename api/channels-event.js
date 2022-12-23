@@ -40,6 +40,7 @@ export default async (req, res) => {
         { socket_id: socketID }
       );
 
+      console.log(`Payload is: ${JSON.stringify(payload)}`);
       channels.sendToUser(payload.userID, "new_connection_payload", {
         channel: activeChannels[server],
       });
