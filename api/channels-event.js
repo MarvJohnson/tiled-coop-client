@@ -14,7 +14,14 @@ const channels = new Channels({
   cluster,
 });
 
-const activeChannels = {};
+const users = {};
+
+function addUser(userID, user, currentLayer) {
+  users[userID] = {
+    user,
+    currentLayer,
+  };
+}
 
 export default async (req, res) => {
   console.log(JSON.stringify(req.body));
@@ -29,14 +36,7 @@ export default async (req, res) => {
 
   switch (action) {
     case "connection":
-      if (!activeChannels[server]) {
-        activeChannels[server] = {};
-      }
-
-      activeChannels[server][payload.userID] = {
-        user,
-        currentLayer: payload.initialLayer,
-      };
+      addUser(payload.userID, user, payload.initialLayer);
 
       await channels.trigger(
         server,
@@ -50,11 +50,11 @@ export default async (req, res) => {
       );
 
       await channels.sendToUser(payload.userID, "new_connection_payload", {
-        channel: Object.entries(activeChannels[server]),
+        channel: Object.entries(users),
       });
       break;
     case "layer_changed":
-      activeChannels[server][payload.userID].currentLayer = payload.newLayer;
+      users[payload.userID].currentLayer = payload.newLayer;
 
       await channels.trigger(
         server,
@@ -68,17 +68,13 @@ export default async (req, res) => {
       break;
     case "user_disconnected":
       console.log("disconnecting user!");
-      console.log(JSON.stringify(activeChannels));
+      console.log(JSON.stringify(users));
 
-      if (!activeChannels[server] || !activeChannels[server][socketID]) {
+      if (!users[payload.userID]) {
         break;
       }
 
-      delete activeChannels[server][socketID];
-
-      if (Object.keys(activeChannels[server]).length === 0) {
-        delete activeChannels[server];
-      }
+      delete users[payload.userID];
 
       await channels.trigger(server, "user_disconnected", {
         userID: payload.userID,
