@@ -25,7 +25,7 @@ export default async (req, res) => {
     payload = null,
   } = req.body;
 
-  console.log(action);
+  console.log(JSON.stringify(req.body));
 
   switch (action) {
     case "connection":
