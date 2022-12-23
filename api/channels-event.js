@@ -17,7 +17,13 @@ const channels = new Channels({
 global.activeChannels = {};
 
 export default async (req, res) => {
-  const { socketID, username: user, server, action, payload } = req.body;
+  const {
+    socketID,
+    username: user = null,
+    server,
+    action,
+    payload = null,
+  } = req.body;
 
   switch (action) {
     case "connection":
