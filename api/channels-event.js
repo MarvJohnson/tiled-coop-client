@@ -14,7 +14,7 @@ const channels = new Channels({
   cluster,
 });
 
-global.activeChannels = {};
+const activeChannels = {};
 
 export default async (req, res) => {
   console.log(JSON.stringify(req.body));
