@@ -17,6 +17,8 @@ const channels = new Channels({
 global.activeChannels = {};
 
 export default async (req, res) => {
+  console.log(JSON.stringify(req.body));
+
   const {
     socketID,
     username: user = null,
@@ -24,8 +26,6 @@ export default async (req, res) => {
     action,
     payload = null,
   } = req.body;
-
-  console.log(JSON.stringify(req.body));
 
   switch (action) {
     case "connection":
