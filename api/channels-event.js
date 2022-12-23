@@ -57,6 +57,13 @@ export default async (req, res) => {
         { socket_id: socketID }
       );
       break;
+    case "user_disconnected":
+      delete activeChannels[server][socketID];
+
+      if (Object.keys(activeChannels[server]).length === 0) {
+        delete activeChannels[server];
+      }
+      break;
   }
 
   res.status(200).end("Received message!");
