@@ -9,10 +9,13 @@ export default async (req, res) => {
         "https://tiled-coop-client-menthus123.vercel.app/api/channels-event/",
         {
           method: "POST",
-          body: {
+          body: JSON.stringify({
             action: "user_disconnected",
             server,
             socketID,
+          }),
+          headers: {
+            "Content-Type": "application/json",
           },
         }
       );
