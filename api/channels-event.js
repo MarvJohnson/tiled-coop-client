@@ -25,6 +25,8 @@ export default async (req, res) => {
     payload = null,
   } = req.body;
 
+  console.log(action);
+
   switch (action) {
     case "connection":
       if (!activeChannels[server]) {
