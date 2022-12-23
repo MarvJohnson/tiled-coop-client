@@ -5,8 +5,11 @@ export default async (req, res) => {
 
   switch (events[0].name) {
     case "channel_vacated":
-      const server = events[0].channel;
-      const socketID = events[1].channel.replace("#server-to-user-", "");
+      const eventObjOrder = events[0].channel.name.includes("#");
+      const server = eventObjOrder ? events[1].channel : events[0].channel;
+      const socketID = (
+        eventObjOrder ? events[0].channel : events[1].channel
+      ).replace("#server-to-user-", "");
       await fetch(
         "https://tiled-coop-client-menthus123.vercel.app/api/channels-event/",
         {
