@@ -68,6 +68,11 @@ export default async (req, res) => {
     case "user_disconnected":
       console.log("disconnecting user!");
       console.log(JSON.stringify(activeChannels));
+
+      if (!activeChannels[server] || !activeChannels[server][socketID]) {
+        break;
+      }
+
       delete activeChannels[server][socketID];
 
       if (Object.keys(activeChannels[server]).length === 0) {
