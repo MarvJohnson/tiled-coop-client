@@ -24,5 +24,5 @@ export default async (req, res) => {
     user,
   });
 
-  res.status(200).send(authResponse);
+  res.status(200).json(authResponse);
 };
