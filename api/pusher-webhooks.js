@@ -1,3 +1,4 @@
 export default async (req, res) => {
-  res.status(200).send(authResponse);
+  console.log(JSON.stringify(req.body));
+  res.status(200).end();
 };
