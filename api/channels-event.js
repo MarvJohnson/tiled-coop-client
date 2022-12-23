@@ -14,7 +14,7 @@ const channels = new Channels({
   cluster,
 });
 
-const activeChannels = {};
+var activeChannels = {};
 
 export default async (req, res) => {
   const { socketID, username: user, server, action, payload } = req.body;
