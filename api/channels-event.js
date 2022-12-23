@@ -33,7 +33,7 @@ export default async (req, res) => {
         activeChannels[server] = {};
       }
 
-      activeChannels[server][socketID] = {
+      activeChannels[server][payload.userID] = {
         user,
         currentLayer: payload.initialLayer,
       };
