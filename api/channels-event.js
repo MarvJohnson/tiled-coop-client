@@ -79,6 +79,10 @@ export default async (req, res) => {
       if (Object.keys(activeChannels[server]).length === 0) {
         delete activeChannels[server];
       }
+
+      await channels.trigger(server, "user_disconnected", {
+        userID: payload.userID,
+      });
       break;
   }
 
