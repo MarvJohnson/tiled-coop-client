@@ -5,7 +5,7 @@ export default async (req, res) => {
 
   switch (events[0].name) {
     case "channel_vacated":
-      const eventObjOrder = events[0].name.includes("#");
+      const eventObjOrder = events[0].channel.includes("#");
       const server = eventObjOrder ? events[1].channel : events[0].channel;
       const socketID = (
         eventObjOrder ? events[0].channel : events[1].channel
