@@ -62,6 +62,7 @@ export default async (req, res) => {
         {
           user,
           newLayer: payload.newLayer,
+          userID: payload.userID,
         },
         { socket_id: socketID }
       );
