@@ -5,14 +5,17 @@ export default async (req, res) => {
     case "channel_vacated":
       const server = events[0].channel;
       const socketID = events[1].channel.replace("#server-to-user-");
-      await fetch("/api/channels-event", {
-        method: "POST",
-        body: {
-          action: "user_disconnected",
-          server,
-          socketID,
-        },
-      });
+      await fetch(
+        "https://tiled-coop-client-menthus123.vercel.app/api/channels-event/",
+        {
+          method: "POST",
+          body: {
+            action: "user_disconnected",
+            server,
+            socketID,
+          },
+        }
+      );
       break;
   }
   console.log(JSON.stringify(req.body));
