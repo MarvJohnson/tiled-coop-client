@@ -16,9 +16,10 @@ const channels = new Channels({
 
 const users = {};
 
-function addUser(userID, user, currentLayer) {
+function addUser(userID, server, user, currentLayer) {
   users[userID] = {
     user,
+    server,
     currentLayer,
   };
 }
@@ -36,7 +37,7 @@ export default async (req, res) => {
 
   switch (action) {
     case "connection":
-      addUser(payload.userID, user, payload.initialLayer);
+      addUser(payload.userID, server, user, payload.initialLayer);
 
       await channels.trigger(
         server,
@@ -75,11 +76,15 @@ export default async (req, res) => {
         break;
       }
 
-      delete users[payload.userID];
+      await channels.trigger(
+        users[payload.userID].server,
+        "user_disconnected",
+        {
+          userID: payload.userID,
+        }
+      );
 
-      await channels.trigger(server, "user_disconnected", {
-        userID: payload.userID,
-      });
+      delete users[payload.userID];
       break;
   }
 
