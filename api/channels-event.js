@@ -26,19 +26,26 @@ const activeChannels = {};
 const activeUsers = {};
 
 function addChannel(channel, password) {
-  activeChannels[channel] = {
+  const newChannel = {
     isPasswordProtected: !!password,
     password,
-    activeUsers: [],
+    activeUsers: {},
   };
+
+  activeChannels[channel] = newChannel;
+
+  return newChannel;
 }
 
-function addUser(userID, server, user, currentLayer) {
-  activeUsers[userID] = {
-    user,
-    server,
+function addUser(userID, channel, username, currentLayer) {
+  const newUser = {
+    username,
+    server: channel,
     currentLayer,
   };
+  activeUsers[userID] = newUser;
+
+  return newUser;
 }
 
 export default async (req, res) => {
@@ -46,7 +53,7 @@ export default async (req, res) => {
 
   const {
     socketID,
-    username: user = null,
+    username = null,
     channel,
     action,
     payload = null,
@@ -54,26 +61,28 @@ export default async (req, res) => {
 
   switch (action) {
     case "connection":
-      if (activeChannels[channel]) {
-        const channelInstance = activeChannels[channel];
-
-        if (
-          !channelInstance.isPasswordProtected ||
-          password === channelInstance.password
-        ) {
-        } else {
-          await channels.sendToUser(payload.userID, "failed_password", {
-            channel: Object.entries(activeUsers),
-          });
-        }
+      if (!activeChannels[channel]) {
+        addChannel(channel, payload.password);
       }
-      addUser(payload.userID, channel, user, payload.initialLayer);
+
+      if (activeChannels[channel].activeUsers[payload.userID]) {
+        break;
+      }
+
+      const newUser = addUser(
+        payload.userID,
+        channel,
+        username,
+        payload.initialLayer
+      );
+
+      activeChannels[channel].activeUsers[payload.userID] = newUser;
 
       await channels.trigger(
         channel,
         "new_user_connected",
         {
-          user,
+          username,
           initialLayer: payload.initialLayer,
           userID: payload.userID,
         },
@@ -81,7 +90,7 @@ export default async (req, res) => {
       );
 
       await channels.sendToUser(payload.userID, "new_connection_payload", {
-        channel: activeChannels[channel].users,
+        channel: Object.values(activeChannels[channel].activeUsers),
       });
       break;
     case "layer_changed":
@@ -91,7 +100,7 @@ export default async (req, res) => {
         channel,
         "user_layer_changed",
         {
-          user,
+          username,
           newLayer: payload.newLayer,
           userID: payload.userID,
         },
@@ -104,12 +113,19 @@ export default async (req, res) => {
       }
 
       await channels.trigger(
-        activeUsers[payload.userID].server,
+        activeUsers[payload.userID].channel,
         "user_disconnected",
         {
           userID: payload.userID,
         }
       );
+
+      const userChannel = activeUsers[payload.userID].channel;
+      delete activeChannels[userChannel].activeUsers[payload.userID];
+
+      if (Object.keys(activeChannels[userChannel].activeUsers).length === 0) {
+        delete activeChannels[userChannel];
+      }
 
       delete activeUsers[payload.userID];
       break;
