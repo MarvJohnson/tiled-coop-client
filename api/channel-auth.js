@@ -1,6 +1,4 @@
 export default async (req, res) => {
-  console.log(JSON.stringify(req.body));
-
   const { socket_id: socketID, password } = req.body;
 
   return res.send(
