@@ -1,6 +1,6 @@
 export default async (req, res) => {
   console.log(JSON.stringify(req.body));
-  const { socket_id: socketID, password } = req.body;
+  const { socket_id: socketID, channel_name: channel, password } = req.body;
 
   return res.send(
     await fetch(
@@ -10,6 +10,7 @@ export default async (req, res) => {
         body: JSON.stringify({
           action: "channel_auth",
           socketID,
+          channel,
           payload: {
             password,
           },
