@@ -133,7 +133,7 @@ export default async (req, res) => {
       console.log("Channel authing!");
       const authResponse = pusher.authorizeChannel(socketID, channel);
       console.log(JSON.stringify(authResponse));
-      return res.status(200).json({ auth: authResponse.auth });
+      return res.status(200).send(authResponse);
   }
 
   res.status(200).end("Received message!");
