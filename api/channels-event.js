@@ -132,7 +132,7 @@ export default async (req, res) => {
     case "channel_auth":
       console.log("Channel authing!");
       const authResponse = pusher.authorizeChannel(socketID, channel);
-      return res.status(200).send(authResponse);
+      return res.status(200).send({ auth: authResponse.auth });
   }
 
   res.status(200).end("Received message!");
