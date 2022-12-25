@@ -1,5 +1,5 @@
 export default async (req, res) => {
-  const { socket_id: socketID, password } = req.body;
+  const { socket_id, password } = req.body;
 
   return res.send(
     await fetch(
@@ -8,7 +8,7 @@ export default async (req, res) => {
         method: "POST",
         body: JSON.stringify({
           action: "channel_auth",
-          socketID,
+          socket_id,
           payload: {
             password,
           },
