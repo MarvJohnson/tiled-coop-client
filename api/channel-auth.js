@@ -20,8 +20,10 @@ export default async (req, res) => {
     }
   );
 
-  console.log("Response from channel-event");
-  console.log(response);
+  const json = await response.json();
 
-  return res.send(response);
+  console.log("Response from channel-event");
+  console.log(json);
+
+  return res.send(json);
 };
