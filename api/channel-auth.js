@@ -8,8 +8,8 @@ export default async (req, res) => {
         method: "POST",
         body: JSON.stringify({
           action: "channel_auth",
+          socketID,
           payload: {
-            socketID,
             password,
           },
         }),

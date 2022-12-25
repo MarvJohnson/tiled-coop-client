@@ -131,7 +131,7 @@ export default async (req, res) => {
       break;
     case "channel_auth":
       console.log("Channel authing!");
-      const authResponse = pusher.authorizeChannel(socketID, channel);
+      const authResponse = pusher.authorizeChannel(payload.socketID, channel);
       return res.status(200).send(authResponse);
   }
 
