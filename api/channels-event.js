@@ -90,7 +90,7 @@ export default async (req, res) => {
       );
 
       await channels.sendToUser(payload.userID, "new_connection_payload", {
-        channel: Object.values(activeChannels[channel].activeUsers),
+        channel: Object.entries(activeChannels[channel].activeUsers),
       });
       break;
     case "layer_changed":
