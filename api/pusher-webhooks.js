@@ -12,7 +12,7 @@ export default async (req, res) => {
       }
 
       const userID = userIDEvent.channel.replace("#server-to-user-", "");
-      await fetch(
+      return await fetch(
         "https://tiled-coop-client-menthus123.vercel.app/api/channels-event/",
         {
           method: "POST",
@@ -27,7 +27,6 @@ export default async (req, res) => {
           },
         }
       );
-      break;
   }
 
   res.status(200).end();
