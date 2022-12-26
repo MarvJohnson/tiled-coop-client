@@ -1,6 +1,7 @@
 export default async (req, res) => {
   console.log(JSON.stringify(req.body));
   const {
+    username,
     socket_id: socketID,
     channel_name: channel,
     password,
@@ -16,6 +17,7 @@ export default async (req, res) => {
           action: "channel_auth",
           socketID,
           channel,
+          username,
           payload: {
             password,
             userID,
