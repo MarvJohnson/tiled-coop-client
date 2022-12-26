@@ -34,7 +34,7 @@ export default async (req, res) => {
     console.log("Response from channel-event");
     console.log(json);
 
-    return res.send(json);
+    return res.status(200).send(json);
   } catch (err) {
     return res.status(403).end();
   }
