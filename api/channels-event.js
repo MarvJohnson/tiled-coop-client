@@ -139,7 +139,7 @@ export default async (req, res) => {
       console.log("Channel authing!");
 
       if (payload.password !== activeChannels[channel].password) {
-        return res.status(403).end();
+        return res.status(403).send({});
       }
 
       newUser = addUser(
