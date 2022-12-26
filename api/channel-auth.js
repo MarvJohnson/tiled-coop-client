@@ -1,6 +1,11 @@
 export default async (req, res) => {
   console.log(JSON.stringify(req.body));
-  const { socket_id: socketID, channel_name: channel, password } = req.body;
+  const {
+    socket_id: socketID,
+    channel_name: channel,
+    password,
+    userID,
+  } = req.body;
 
   try {
     const response = await fetch(
@@ -13,6 +18,7 @@ export default async (req, res) => {
           channel,
           payload: {
             password,
+            userID,
           },
         }),
         headers: {
