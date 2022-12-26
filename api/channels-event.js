@@ -75,7 +75,7 @@ export default async (req, res) => {
         break;
       }
 
-      let newUser = addUser(
+      const newUser = addUser(
         payload.userID,
         channel,
         username,
@@ -142,14 +142,14 @@ export default async (req, res) => {
         return res.status(403).send({});
       }
 
-      newUser = addUser(
+      const newAuthedUser = addUser(
         payload.userID,
         channel,
         username,
         payload.initialLayer
       );
 
-      activeChannels[channel].activeUsers[payload.userID] = newUser;
+      activeChannels[channel].activeUsers[payload.userID] = newAuthedUser;
 
       await channels.trigger(
         channel,
