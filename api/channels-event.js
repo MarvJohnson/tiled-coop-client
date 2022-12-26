@@ -61,10 +61,10 @@ export default async (req, res) => {
 
   switch (action) {
     case "connection":
-      const activeChannel = activeChannels[channel];
+      let activeChannel = activeChannels[channel];
 
       if (!activeChannel) {
-        addChannel(channel, payload.password);
+        activeChannel = addChannel(channel, payload.password);
       }
 
       if (activeChannel.activeUsers[payload.userID]) {
