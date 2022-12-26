@@ -6,6 +6,7 @@ export default async (req, res) => {
     channel_name: channel,
     password,
     userID,
+    initialLayer,
   } = req.body;
 
   try {
@@ -21,6 +22,7 @@ export default async (req, res) => {
           payload: {
             password,
             userID,
+            initialLayer,
           },
         }),
         headers: {

@@ -40,7 +40,7 @@ function addChannel(channel, password) {
 function addUser(userID, channel, username, currentLayer) {
   const newUser = {
     username,
-    server: channel,
+    channel,
     currentLayer,
   };
   activeUsers[userID] = newUser;
