@@ -61,15 +61,21 @@ export default async (req, res) => {
 
   switch (action) {
     case "connection":
-      if (!activeChannels[channel]) {
+      const activeChannel = activeChannels[channel];
+
+      if (!activeChannel) {
         addChannel(channel, payload.password);
       }
 
-      if (activeChannels[channel].activeUsers[payload.userID]) {
+      if (activeChannel.activeUsers[payload.userID]) {
         break;
       }
 
-      const newUser = addUser(
+      if (activeChannel.isPasswordProtected) {
+        break;
+      }
+
+      let newUser = addUser(
         payload.userID,
         channel,
         username,
@@ -131,6 +137,35 @@ export default async (req, res) => {
       break;
     case "channel_auth":
       console.log("Channel authing!");
+
+      if (payload.password !== activeChannels[channel].password) {
+        return res.status(403).end();
+      }
+
+      newUser = addUser(
+        payload.userID,
+        channel,
+        username,
+        payload.initialLayer
+      );
+
+      activeChannels[channel].activeUsers[payload.userID] = newUser;
+
+      await channels.trigger(
+        channel,
+        "new_user_connected",
+        {
+          username,
+          initialLayer: payload.initialLayer,
+          userID: payload.userID,
+        },
+        { socket_id: socketID }
+      );
+
+      await channels.sendToUser(payload.userID, "new_connection_payload", {
+        channel: Object.entries(activeChannels[channel].activeUsers),
+      });
+
       const authResponse = pusher.authorizeChannel(socketID, channel);
       console.log(JSON.stringify(authResponse));
       return res.status(200).send(authResponse);
