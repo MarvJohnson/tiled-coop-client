@@ -1,3 +1,4 @@
+import { ReadStream } from "fs";
 import Pusher from "pusher";
 import Channels from "pusher";
 
@@ -169,6 +170,11 @@ export default async (req, res) => {
       const authResponse = pusher.authorizeChannel(socketID, channel);
       console.log(JSON.stringify(authResponse));
       return res.status(200).send(authResponse);
+    case "sync_upload":
+      const stream = payload.file;
+      console.log(stream);
+      console.log(Object.keys(stream));
+      break;
   }
 
   res.status(200).end("Received message!");
