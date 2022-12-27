@@ -171,12 +171,9 @@ export default async (req, res) => {
       console.log(JSON.stringify(authResponse));
       return res.status(200).send(authResponse);
     case "sync_upload":
-      const stream = payload.file.getReader();
-      stream.read().then(({ done, value }) => {
-        console.log(`done is ${done}`);
-        console.log(`value is ${value}`);
-      });
-
+      const stream = payload.file;
+      console.log(stream);
+      console.log(Object.keys(stream));
       break;
   }
 
