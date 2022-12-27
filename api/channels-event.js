@@ -50,6 +50,8 @@ function addUser(userID, channel, username, currentLayer) {
 }
 
 export default async (req, res) => {
+  console.log("channels event");
+  console.log(req.body);
   console.log(JSON.stringify(req.body));
 
   const {
