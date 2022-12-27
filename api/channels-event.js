@@ -1,4 +1,4 @@
-import { ReadStream } from "fs";
+import formidable from "formidable";
 import Pusher from "pusher";
 import Channels from "pusher";
 
@@ -174,9 +174,13 @@ export default async (req, res) => {
       return res.status(200).send(authResponse);
     case "sync_upload":
       console.log("sync upload");
-      const stream = payload.formData;
-      console.log(stream);
-      console.log(Object.keys(stream));
+      const form = new formidable.IncomingForm();
+
+      form.parse(req, function (err, fields, files) {
+        console.log("error", err);
+        console.log("fields", fields);
+        console.log("files", files);
+      });
       break;
   }
 
