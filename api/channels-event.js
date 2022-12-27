@@ -171,6 +171,7 @@ export default async (req, res) => {
       console.log(JSON.stringify(authResponse));
       return res.status(200).send(authResponse);
     case "sync_upload":
+      console.log("sync upload");
       const stream = payload.formData;
       console.log(stream);
       console.log(Object.keys(stream));
