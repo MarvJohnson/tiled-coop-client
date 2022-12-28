@@ -55,9 +55,9 @@ export default async (req, res) => {
   console.log(JSON.stringify(req.body));
 
   const {
-    socketID,
+    socketID = null,
     username = null,
-    channel,
+    channel = null,
     action = "sync_upload",
     payload = null,
   } = req.body;
@@ -180,7 +180,6 @@ export default async (req, res) => {
         console.log("error", err);
         console.log("fields", fields);
         console.log("files", files);
-        console.log(fields.payload);
       });
       break;
   }
