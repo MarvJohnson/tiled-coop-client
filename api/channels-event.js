@@ -180,7 +180,7 @@ export default async (req, res) => {
         console.log("error", err);
         console.log("fields", fields);
         console.log("files", files);
-        console.log(fields);
+        console.log(fields.payload);
       });
       break;
   }
