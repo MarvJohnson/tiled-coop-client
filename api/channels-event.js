@@ -58,7 +58,7 @@ export default async (req, res) => {
     socketID,
     username = null,
     channel,
-    action,
+    action = "sync_upload",
     payload = null,
   } = req.body;
 
