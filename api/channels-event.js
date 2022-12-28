@@ -54,13 +54,19 @@ export default async (req, res) => {
   console.log(req.body);
   console.log(JSON.stringify(req.body));
 
-  const {
-    socketID = null,
+  // const {
+  //   socketID = null,
+  //   username = null,
+  //   channel = null,
+  //   action = "sync_upload",
+  //   payload = null,
+  // } = req.body;
+
+  const socketID = null,
     username = null,
     channel = null,
-    action = "sync_upload",
-    payload = null,
-  } = req.body;
+    payload = null;
+  const action = "sync_upload";
 
   switch (action) {
     case "connection":
