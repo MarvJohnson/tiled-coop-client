@@ -54,11 +54,11 @@ export default async (req, res) => {
   console.log(req.body);
   console.log(JSON.stringify(req.body));
 
-  const socketID = req.body.socketID;
-  const username = req.body.username;
-  const channel = req.body.channel;
-  const action = req.body.action || "sync_upload";
-  const payload = req.body.payload;
+  const socketID = req.body?.socketID;
+  const username = req.body?.username;
+  const channel = req.body?.channel;
+  const action = req.body?.action || "sync_upload";
+  const payload = req.body?.payload;
 
   switch (action) {
     case "connection":
