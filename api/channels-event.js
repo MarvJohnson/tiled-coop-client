@@ -172,6 +172,7 @@ export default async (req, res) => {
       return res.status(200).send(authResponse);
     case "sync_upload":
       console.log("sync upload");
+      console.log(req);
       req.setEncoding("utf8");
       req.on("readable", () => {
         let chunk;
