@@ -172,13 +172,14 @@ export default async (req, res) => {
       return res.status(200).send(authResponse);
     case "sync_upload":
       console.log("sync upload");
-      const form = formidable({ multiples: true });
+      console.log(req);
+      // const form = formidable({ multiples: true });
 
-      form.parse(req, function (err, fields, files) {
-        console.log("error", err);
-        console.log("fields", fields);
-        console.log("files", files);
-      });
+      // form.parse(req, function (err, fields, files) {
+      //   console.log("error", err);
+      //   console.log("fields", fields);
+      //   console.log("files", files);
+      // });
       break;
   }
 
