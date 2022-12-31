@@ -173,8 +173,7 @@ export default async (req, res) => {
     case "sync_upload":
       console.log("sync upload");
       console.log(req);
-      console.log(req.body);
-      req.setEncoding("utf8");
+      console.log(req.body.toString("utf8"));
       // const form = formidable({ multiples: true });
 
       // form.parse(req, function (err, fields, files) {
