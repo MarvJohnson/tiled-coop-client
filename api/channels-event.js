@@ -173,9 +173,12 @@ export default async (req, res) => {
     case "sync_upload":
       console.log("sync upload");
       req.setEncoding("utf8");
-      req.on("data", (chunk) => {
-        console.log(`Got ${chunk.length} of data!`);
-        console.log(chunk);
+      req.on("readable", () => {
+        let chunk;
+        while ((chunk = req.read()) !== null) {
+          console.log(`Got ${chunk.length} of data!`);
+          console.log(chunk);
+        }
       });
       // const form = formidable({ multiples: true });
 
