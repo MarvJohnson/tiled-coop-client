@@ -174,11 +174,11 @@ export default async (req, res) => {
       console.log("sync upload");
       console.log(req);
       req.setEncoding("utf8");
-      req.on("data", (chunk) => {
+      req.body.on("data", (chunk) => {
         console.log(`Got data chunk ${chunk.length} of length!`);
         console.log(chunk);
       });
-      req.on("readable", () => {
+      req.body.on("readable", () => {
         let chunk;
         while ((chunk = req.read()) !== null) {
           console.log(`Got readable chunk of ${chunk.length} length of data!`);
