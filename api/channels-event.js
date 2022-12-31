@@ -172,7 +172,11 @@ export default async (req, res) => {
       return res.status(200).send(authResponse);
     case "sync_upload":
       console.log("sync upload");
-      console.log(req);
+      req.setEncoding("utf8");
+      req.on("data", (chunk) => {
+        console.log(`Got ${chunk.length} of data!`);
+        console.log(chunk);
+      });
       // const form = formidable({ multiples: true });
 
       // form.parse(req, function (err, fields, files) {
