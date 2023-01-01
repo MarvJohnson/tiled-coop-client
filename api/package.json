@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "formidable": "^2.1.1",
     "pusher": "^5.1.2",
     "uuid": "^9.0.0"
   }
