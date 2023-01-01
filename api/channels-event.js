@@ -171,19 +171,6 @@ export default async (req, res) => {
       return res.status(200).send(authResponse);
     case "sync_upload":
       console.log("sync upload");
-      console.log(req);
-      const customReadable = new ReadableStream({
-        start(controller) {
-          controller.enqueue(encoder.encode("Basic Streaming Test"));
-          controller.close();
-        },
-      });
-
-      return new Response(customReadable, {
-        headers: {
-          "Content-Type": "text/plain",
-        },
-      });
       break;
   }
 
