@@ -48,10 +48,6 @@ function addUser(userID, channel, username, currentLayer) {
   return newUser;
 }
 
-export const config = {
-  runtime: "edge",
-};
-
 export default async (req, res) => {
   console.log("channels event");
   console.log(req.body);
