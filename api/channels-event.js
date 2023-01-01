@@ -49,6 +49,10 @@ function addUser(userID, channel, username, currentLayer) {
   return newUser;
 }
 
+export const config = {
+  runtime: "edge",
+};
+
 export default async (req, res) => {
   console.log("channels event");
   console.log(req.body);
@@ -173,22 +177,18 @@ export default async (req, res) => {
     case "sync_upload":
       console.log("sync upload");
       console.log(req);
-      req.setEncoding("utf8");
-      req.on("data", (data) => {
-        console.log("data!");
-        console.log(data);
+      const customReadable = new ReadableStream({
+        start(controller) {
+          controller.enqueue(encoder.encode("Basic Streaming Test"));
+          controller.close();
+        },
       });
-      req.on("readable", () => {
-        console.log("readable!");
-        console.log(req.read());
-      });
-      // const form = formidable({ multiples: true });
 
-      // form.parse(req, function (err, fields, files) {
-      //   console.log("error", err);
-      //   console.log("fields", fields);
-      //   console.log("files", files);
-      // });
+      return new Response(customReadable, {
+        headers: {
+          "Content-Type": "text/plain",
+        },
+      });
       break;
   }
 
