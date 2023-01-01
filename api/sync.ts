@@ -12,4 +12,6 @@ export default async (req: Request) => {
     console.log("data!");
     console.log(data);
   }
+
+  return new Response();
 };
