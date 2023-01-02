@@ -4,6 +4,7 @@ export const config = {
 
 export default async (req: Request) => {
   console.log(req);
+  console.log(req.url);
   const reader = req.body?.getReader();
 
   if (reader) {
