@@ -11,7 +11,7 @@ export default async (req: Request) => {
     write(chunk) {
       console.log("writing!");
       return new Promise((resolve) => {
-        console.log(chunk);
+        console.log(`Chunk: ${chunk}`);
         resolve();
       });
     },
