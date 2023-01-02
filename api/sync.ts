@@ -9,7 +9,7 @@ export default async (req: Request) => {
 
   const writer = new WritableStream({
     write(chunk) {
-      console.log("writing!");
+      console.log("writing!", chunk);
       return new Promise((resolve) => {
         console.log(`Chunk: ${chunk}`);
         resolve();
