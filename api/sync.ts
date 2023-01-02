@@ -18,6 +18,9 @@ export default async (req: Request) => {
     close() {
       console.log("done writing!");
     },
+    abort(err) {
+      console.log("Sink error:", err);
+    },
   });
 
   await req.body?.pipeTo(writer);
