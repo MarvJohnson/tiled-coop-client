@@ -14,6 +14,7 @@ export default async (req: Request) => {
       console.log(!!chunk);
       console.log(typeof chunk);
       console.log(Object.keys(chunk));
+      console.log(JSON.stringify(chunk));
       console.log(chunk.toString());
       return new Promise((resolve) => {
         console.log(`Chunk: ${chunk}`);
