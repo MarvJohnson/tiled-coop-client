@@ -52,7 +52,7 @@ async function processJSON(req) {
   return new Promise((resolve) => {
     let body = [];
 
-    req
+    req.body
       .on("data", (chunk) => {
         body.push(chunk);
       })
@@ -72,8 +72,14 @@ async function processRequest(req) {
   });
 }
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 export default async (req, res) => {
-  // await processRequest(req);
+  await processRequest(req);
   console.log("channels event");
   console.log(req.body);
   console.log(JSON.stringify(req.body));
