@@ -78,7 +78,7 @@ export const config = {
 
 export default async (req: VercelRequest, res: VercelResponse) => {
   console.log("channels event");
-  console.log(req.body);
+  console.log(req);
   await processRequest(req);
   // console.log(req);
   // console.log(req.body);
