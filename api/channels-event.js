@@ -1,4 +1,3 @@
-import { WriteStream } from "fs";
 import Pusher from "pusher";
 import Channels from "pusher";
 import { Readable } from "stream";
@@ -200,7 +199,7 @@ export default async (req, res) => {
       const decoder = new TextDecoder("utf-8");
       const reader = new Readable.from(req.body);
       let output = "";
-      const writer = new WriteStream({
+      const writer = new WritableStream({
         write(chunk) {
           return new Promise((resolve) => {
             const text = decoder.decode(chunk, { stream: true });
