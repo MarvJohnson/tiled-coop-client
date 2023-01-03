@@ -48,7 +48,32 @@ function addUser(userID, channel, username, currentLayer) {
   return newUser;
 }
 
+async function processJSON(req) {
+  return new Promise((resolve) => {
+    let body = [];
+
+    req
+      .on("data", (chunk) => {
+        body.push(chunk);
+      })
+      .on("end", () => {
+        resolve(JSON.parse(Buffer.concat(body).toString()));
+      });
+  });
+}
+
+async function processRequest(req) {
+  return new Promise(async (resolve) => {
+    if (req.headers["Content-Type"] === "application/json") {
+      req.body = await processJSON(req);
+    }
+
+    resolve();
+  });
+}
+
 export default async (req, res) => {
+  await processRequest(req);
   console.log("channels event");
   console.log(req.body);
   console.log(JSON.stringify(req.body));
