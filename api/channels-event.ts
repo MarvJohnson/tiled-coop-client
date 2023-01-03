@@ -78,7 +78,7 @@ export const config = {
 
 export default async (req: VercelRequest, res: VercelResponse) => {
   console.log("channels event");
-  console.log(req);
+  console.log(req.body);
   await processRequest(req);
   // console.log(req);
   // console.log(req.body);
@@ -202,7 +202,6 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       return res.status(200).send(authResponse);
     case "sync_upload":
       console.log("sync upload");
-      console.log();
       break;
   }
 
