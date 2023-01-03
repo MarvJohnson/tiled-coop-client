@@ -1,11 +1,13 @@
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { Readable } from "node:stream";
 import Pusher from "pusher";
 import Channels from "pusher";
 
 const {
-  APP_ID: appId,
-  KEY: key,
-  SECRET: secret,
-  CLUSTER: cluster,
+  APP_ID: appId = "",
+  KEY: key = "",
+  SECRET: secret = "",
+  CLUSTER: cluster = "",
 } = process.env;
 
 const pusher = new Pusher({
@@ -48,27 +50,23 @@ function addUser(userID, channel, username, currentLayer) {
   return newUser;
 }
 
-async function processJSON(req) {
-  return new Promise((resolve) => {
-    let body = [];
+async function processJSON(readable: Readable) {
+  const chunks: Buffer[] = [];
 
-    req.body
-      .on("data", (chunk) => {
-        body.push(chunk);
-      })
-      .on("end", () => {
-        resolve(JSON.parse(Buffer.concat(body).toString()));
-      });
-  });
+  for await (const chunk of readable) {
+    chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
+  }
+
+  return JSON.parse(Buffer.concat(chunks).toString());
 }
 
-async function processRequest(req) {
+async function processRequest(req: VercelRequest) {
   return new Promise(async (resolve) => {
     if (req.headers["Content-Type"] === "application/json") {
       req.body = await processJSON(req);
     }
 
-    resolve();
+    resolve(undefined);
   });
 }
 
@@ -78,8 +76,7 @@ export const config = {
   },
 };
 
-export default async (req, res) => {
-  console.log(req.body);
+export default async (req: VercelRequest, res: VercelResponse) => {
   await processRequest(req);
   console.log("channels event");
   console.log(req.body);
