@@ -76,7 +76,6 @@ async function processRequest(req) {
 export default async (req, res) => {
   // await processRequest(req);
   console.log("channels event");
-  console.log(req);
   console.log(req.body);
   console.log(JSON.stringify(req.body));
 
@@ -197,7 +196,20 @@ export default async (req, res) => {
       console.log(JSON.stringify(authResponse));
       return res.status(200).send(authResponse);
     case "sync_upload":
+      let output = "";
+      const decoder = new TextDecoder("utf-8");
+      await new Promise((resolve) => {
+        req.on("data", (chunk) => {
+          const text = decoder.decode(chunk, { stream: true });
+          output += text;
+        });
+
+        req.on("end", () => {
+          resolve();
+        });
+      });
       console.log("sync upload");
+      console.log(output.substring(0, 30));
       break;
   }
 
