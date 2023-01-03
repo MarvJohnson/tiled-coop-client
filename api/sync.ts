@@ -7,17 +7,13 @@ export default async (req: Request) => {
   console.log(req.url);
   console.log(req.body);
 
+  let output = "";
+  const decoder = new TextDecoder("utf-8");
   const writer = new WritableStream({
     write(chunk) {
-      console.log("writing");
-      console.log(chunk);
-      console.log(!!chunk);
-      console.log(typeof chunk);
-      console.log(Object.keys(chunk));
-      console.log(JSON.stringify(chunk));
-      console.log(chunk.toString());
       return new Promise((resolve) => {
-        console.log(`Chunk: ${chunk}`);
+        const text = decoder.decode(chunk, { stream: true });
+        output += text;
         resolve();
       });
     },
@@ -39,6 +35,8 @@ export default async (req: Request) => {
     ${err}
     `);
   }
+  console.log("output:");
+  console.log(output);
 
   return new Response();
 };
