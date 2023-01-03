@@ -1,6 +1,5 @@
 import Pusher from "pusher";
 import Channels from "pusher";
-import { Readable } from "stream";
 
 const {
   APP_ID: appId,
@@ -196,20 +195,8 @@ export default async (req, res) => {
       console.log(JSON.stringify(authResponse));
       return res.status(200).send(authResponse);
     case "sync_upload":
-      let output = "";
-      const decoder = new TextDecoder("utf-8");
-      await new Promise((resolve) => {
-        req.on("data", (chunk) => {
-          const text = decoder.decode(chunk, { stream: true });
-          output += text;
-        });
-
-        req.on("end", () => {
-          resolve();
-        });
-      });
       console.log("sync upload");
-      console.log(output.substring(0, 30));
+      console.log(Object.getOwnPropertyDescriptor(req, "body").value);
       break;
   }
 
