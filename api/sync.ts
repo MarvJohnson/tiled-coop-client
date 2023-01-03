@@ -29,7 +29,16 @@ export default async (req: Request) => {
     },
   });
 
-  await req.body?.pipeTo(writer);
+  try {
+    await req.body?.pipeTo(writer);
+    console.log("Finishd piping!");
+  } catch (err) {
+    console.log(`
+    Error!
+    
+    ${err}
+    `);
+  }
 
   return new Response();
 };
