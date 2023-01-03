@@ -2,7 +2,7 @@ export const config = {
   runtime: "edge",
 };
 
-export default async (req: Request) => {
+export default async (req) => {
   console.log(req);
   console.log(req.url);
   console.log(req.body);

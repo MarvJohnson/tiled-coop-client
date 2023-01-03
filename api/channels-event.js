@@ -72,6 +72,10 @@ async function processRequest(req) {
   });
 }
 
+export const config = {
+  NODEJS_HELPERS: 0,
+};
+
 export default async (req, res) => {
   await processRequest(req);
   console.log("channels event");
