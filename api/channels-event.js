@@ -196,7 +196,7 @@ export default async (req, res) => {
       return res.status(200).send(authResponse);
     case "sync_upload":
       console.log("sync upload");
-      console.log(Object.getOwnPropertyDescriptor(req, "body").value);
+      console.log(Object.getPrototypeOf(req).body);
       break;
   }
 
