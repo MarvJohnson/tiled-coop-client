@@ -1,5 +1,6 @@
 import Pusher from "pusher";
 import Channels from "pusher";
+import { Readable } from "stream";
 
 const {
   APP_ID: appId,
@@ -72,12 +73,8 @@ async function processRequest(req) {
   });
 }
 
-export const config = {
-  NODEJS_HELPERS: 0,
-};
-
 export default async (req, res) => {
-  await processRequest(req);
+  // await processRequest(req);
   console.log("channels event");
   console.log(req.body);
   console.log(JSON.stringify(req.body));
@@ -199,6 +196,11 @@ export default async (req, res) => {
       console.log(JSON.stringify(authResponse));
       return res.status(200).send(authResponse);
     case "sync_upload":
+      const reader = new Readable.from(req.body);
+      reader.on("data", (chunk) => {
+        console.log("read");
+        console.log(chunk);
+      });
       console.log("sync upload");
       break;
   }
