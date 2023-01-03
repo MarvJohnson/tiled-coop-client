@@ -53,6 +53,14 @@ export default async (req, res) => {
   console.log(req.body);
   console.log(JSON.stringify(req.body));
 
+  req.on("socket", (socket) => {
+    console.log("socket!");
+    socket.on("data", (chunk) => {
+      console.log("chunk!");
+      console.log(chunk);
+    });
+  });
+
   const socketID = req.body?.socketID;
   const username = req.body?.username;
   const channel = req.body?.channel;
