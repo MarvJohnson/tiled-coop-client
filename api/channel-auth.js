@@ -11,11 +11,10 @@ export default async (req, res) => {
 
   try {
     const response = await fetch(
-      "https://tiled-coop-client-menthus123.vercel.app/api/channels-event/",
+      "https://tiled-coop-client-menthus123.vercel.app/api/channels-event/?action=channel_auth",
       {
         method: "POST",
         body: JSON.stringify({
-          action: "channel_auth",
           socketID,
           channel,
           username,

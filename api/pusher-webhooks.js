@@ -13,11 +13,10 @@ export default async (req, res) => {
 
       const userID = userIDEvent.channel.replace("#server-to-user-", "");
       return await fetch(
-        "https://tiled-coop-client-menthus123.vercel.app/api/channels-event/",
+        "https://tiled-coop-client-menthus123.vercel.app/api/channels-event/?action=user_disconnected",
         {
           method: "POST",
           body: JSON.stringify({
-            action: "user_disconnected",
             payload: {
               userID,
             },
