@@ -77,12 +77,12 @@ export const config = {
 };
 
 export default async (req: VercelRequest, res: VercelResponse) => {
+  console.log("channels event");
   console.log(req.body);
   await processRequest(req);
-  console.log("channels event");
-  console.log(req);
-  console.log(req.body);
-  console.log(JSON.stringify(req.body));
+  // console.log(req);
+  // console.log(req.body);
+  // console.log(JSON.stringify(req.body));
 
   const socketID = req.body?.socketID;
   const username = req.body?.username;
