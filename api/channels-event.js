@@ -68,17 +68,17 @@ async function processRequest(req) {
   });
 }
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+// export const config = {
+//   api: {
+//     bodyParser: false,
+//   },
+// };
 
 export default async (req, res) => {
   console.log("channels event");
   console.log(req.body);
   console.log("EdgeOutput");
-  console.log(EdgeRuntime.testOutput);
+  console.log(globalThis.EdgeRuntime.testOutput);
 
   // await processRequest(req);
   // console.log(req);
