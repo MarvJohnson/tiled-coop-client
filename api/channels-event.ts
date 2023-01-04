@@ -212,7 +212,8 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       });
 
       await new Promise((resolve) => {
-        req.pipe(writeable).once("finish", () => {
+        req.pipe(writeable).once("close", () => {
+          console.log("stream closed");
           resolve(undefined);
         });
 
