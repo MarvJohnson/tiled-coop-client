@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import type { Readable } from "node:stream";
+import { Readable, Writable } from "node:stream";
 import Pusher from "pusher";
 import Channels from "pusher";
 
@@ -79,6 +79,7 @@ export const config = {
 export default async (req: VercelRequest, res: VercelResponse) => {
   console.log("channels event");
   console.log(req.body);
+
   await processRequest(req);
   // console.log(req);
   // console.log(req.body);
@@ -201,7 +202,25 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       console.log(JSON.stringify(authResponse));
       return res.status(200).send(authResponse);
     case "sync_upload":
+      const decoder = new TextDecoder("utf-8");
+      let output = "";
+      const writeable = new Writable({
+        write(chunk) {
+          const text = decoder.decode(chunk, { stream: true });
+          output += text;
+        },
+      });
+
+      await new Promise((resolve) => {
+        req.pipe(writeable).once("finish", () => {
+          resolve(undefined);
+        });
+
+        setTimeout(resolve, 5000);
+      });
+
       console.log("sync upload");
+      console.log(output);
       break;
   }
 
