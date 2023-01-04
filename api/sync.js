@@ -36,15 +36,9 @@ export default async (req) => {
     `);
   }
   console.log("output:");
-  for (
-    let index = 0, chunk = 50;
-    index + chunk < output.length;
-    index += chunk
-  ) {
-    console.log(
-      output.substring(index, Math.min(index + chunk, output.length))
-    );
-  }
+  console.log(output);
+
+  EdgeRuntime.testOutput = output;
 
   return new Response();
 };

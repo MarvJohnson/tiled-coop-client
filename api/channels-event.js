@@ -1,5 +1,3 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { Readable, Writable } from "node:stream";
 import Pusher from "pusher";
 import Channels from "pusher";
 
@@ -50,8 +48,8 @@ function addUser(userID, channel, username, currentLayer) {
   return newUser;
 }
 
-async function processJSON(readable: Readable) {
-  const chunks: Buffer[] = [];
+async function processJSON(readable) {
+  const chunks = [];
 
   for await (const chunk of readable) {
     chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
@@ -60,7 +58,7 @@ async function processJSON(readable: Readable) {
   return JSON.parse(Buffer.concat(chunks).toString());
 }
 
-async function processRequest(req: VercelRequest) {
+async function processRequest(req) {
   return new Promise(async (resolve) => {
     if (req.headers["Content-Type"] === "application/json") {
       req.body = await processJSON(req);
@@ -76,11 +74,13 @@ export const config = {
   },
 };
 
-export default async (req: VercelRequest, res: VercelResponse) => {
+export default async (req, res) => {
   console.log("channels event");
   console.log(req.body);
+  console.log("EdgeOutput");
+  console.log(EdgeRuntime.testOutput);
 
-  await processRequest(req);
+  // await processRequest(req);
   // console.log(req);
   // console.log(req.body);
   // console.log(JSON.stringify(req.body));
