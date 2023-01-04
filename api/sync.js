@@ -38,7 +38,7 @@ export default async (req) => {
   console.log("output:");
   console.log(output);
 
-  globalThis.EdgeRuntime?.testOutput = output;
+  globalThis.EdgeRuntime.testOutput = output;
 
   return new Response();
 };
