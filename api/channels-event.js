@@ -78,7 +78,8 @@ export default async (req, res) => {
   console.log("channels event");
   console.log(req.body);
   console.log("EdgeOutput");
-  console.log(globalThis.EdgeRuntime.testOutput);
+  console.log(globalThis.EdgeRuntime?.testOutput);
+  console.log(globalThis);
 
   // await processRequest(req);
   // console.log(req);
