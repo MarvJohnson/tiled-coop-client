@@ -202,25 +202,26 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       console.log(JSON.stringify(authResponse));
       return res.status(200).send(authResponse);
     case "sync_upload":
-      const decoder = new TextDecoder("utf-8");
+      console.log("sync upload");
+
       let output = "";
-      const writeable = new Writable({
-        write(chunk) {
-          const text = decoder.decode(chunk, { stream: true });
-          output += text;
-        },
+
+      req.on("data", (chunk) => {
+        console.log("adding data to output");
+        output += chunk;
       });
 
       await new Promise((resolve) => {
-        req.pipe(writeable).once("close", () => {
-          console.log("stream closed");
+        function helper() {
+          console.log("ending stream read");
           resolve(undefined);
-        });
+        }
 
-        setTimeout(resolve, 5000);
+        req.once("end", helper);
+        setTimeout(helper, 10000);
       });
 
-      console.log("sync upload");
+      console.log("output:");
       console.log(output);
       break;
   }
