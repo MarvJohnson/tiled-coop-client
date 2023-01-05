@@ -7,14 +7,23 @@ export default async (req) => {
   console.log(req.url);
   console.log(req.body);
 
-  let output = "";
+  let chunkIndex = 0;
   const decoder = new TextDecoder("utf-8");
   const writer = new WritableStream({
     write(chunk) {
       return new Promise((resolve) => {
         const text = decoder.decode(chunk, { stream: true });
-        output += text;
-        resolve();
+        chunkIndex++;
+        fetch(
+          "https://tiled-coop-client-menthus123.vercel.app/api/channel-auth/?action=sync_upload",
+          {
+            method: "POST",
+            body: text,
+            headers: {
+              "Content-Type": "text/plain",
+            },
+          }
+        ).then(resolve);
       });
     },
     close() {
@@ -35,10 +44,6 @@ export default async (req) => {
     ${err}
     `);
   }
-  console.log("output:");
-  console.log(output);
-
-  globalThis.EdgeRuntime.testOutput = output;
 
   return new Response();
 };
