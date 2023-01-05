@@ -204,26 +204,7 @@ export default async (req, res) => {
       return res.status(200).send(authResponse);
     case "sync_upload":
       console.log("sync upload");
-
-      let output = "";
-
-      req.on("data", (chunk) => {
-        console.log("adding data to output");
-        output += chunk;
-      });
-
-      await new Promise((resolve) => {
-        function helper() {
-          console.log("ending stream read");
-          resolve(undefined);
-        }
-
-        req.once("end", helper);
-        setTimeout(helper, 10000);
-      });
-
-      console.log("output:");
-      console.log(output);
+      console.log(req.body);
       break;
   }
 
