@@ -4,7 +4,7 @@ export default async (req, res) => {
     username,
     socket_id: socketID,
     channel_name: channel,
-    password,
+    password = "",
     userID,
     initialLayer,
   } = req.body;

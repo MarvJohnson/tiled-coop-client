@@ -2,10 +2,10 @@ import Pusher from "pusher";
 import Channels from "pusher";
 
 const {
-  APP_ID: appId = "",
-  KEY: key = "",
-  SECRET: secret = "",
-  CLUSTER: cluster = "",
+  APP_ID: appId,
+  KEY: key,
+  SECRET: secret,
+  CLUSTER: cluster,
 } = process.env;
 
 const pusher = new Pusher({
@@ -48,43 +48,8 @@ function addUser(userID, channel, username, currentLayer) {
   return newUser;
 }
 
-async function processJSON(readable) {
-  const chunks = [];
-
-  for await (const chunk of readable) {
-    chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
-  }
-
-  return JSON.parse(Buffer.concat(chunks).toString());
-}
-
-async function processRequest(req) {
-  return new Promise(async (resolve) => {
-    if (req.headers["Content-Type"] === "application/json") {
-      req.body = await processJSON(req);
-    }
-
-    resolve(undefined);
-  });
-}
-
-// export const config = {
-//   api: {
-//     bodyParser: false,
-//   },
-// };
-
 export default async (req, res) => {
   console.log("channels event");
-  console.log(req.body);
-  console.log("EdgeOutput");
-  console.log(globalThis.EdgeRuntime?.testOutput);
-  console.log(globalThis);
-
-  // await processRequest(req);
-  // console.log(req);
-  // console.log(req.body);
-  // console.log(JSON.stringify(req.body));
 
   const socketID = req.body?.socketID;
   const username = req.body?.username;
