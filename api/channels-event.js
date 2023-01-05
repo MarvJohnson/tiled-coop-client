@@ -90,7 +90,7 @@ export default async (req, res) => {
   const username = req.body?.username;
   const channel = req.body?.channel;
   const action = req.query?.action || "sync_upload";
-  const payload = req.body?.payload;
+  const payload = req.body?.payload || {};
 
   switch (action) {
     case "connection":
