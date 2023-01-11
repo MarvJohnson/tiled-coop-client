@@ -35,9 +35,9 @@ export default async (req, res) => {
       try {
         await pusher.post({
           path: `/channels/${channel}`,
-          body: {
+          body: JSON.stringify({
             testing: "hello world",
-          },
+          }),
         });
 
         const pusherRes = await pusher.get({ path: `/channels/${channel}` });
