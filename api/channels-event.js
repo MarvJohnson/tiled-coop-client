@@ -165,8 +165,10 @@ export default async (req, res) => {
       });
 
       const authResponse = pusher.authorizeChannel(socketID, channel, {
-        username,
-        currentLayer: payload.initialLayer,
+        user_info: {
+          username,
+          currentLayer: payload.initialLayer,
+        },
       });
       console.log(JSON.stringify(authResponse));
       return res.status(200).send(authResponse);
