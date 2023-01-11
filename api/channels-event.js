@@ -33,7 +33,12 @@ export default async (req, res) => {
       }
 
       try {
-        console.log(await pusher.get({ path: `/channels/${channel}` }));
+        const pusherRes = await pusher.get({ path: `/channels/${channel}` });
+
+        if (pusherRes.status === 200) {
+          const pusherChannelData = await pusherRes.json();
+          console.log(pusherChannelData);
+        }
       } catch (err) {
         console.log("failed fetching channel info");
       }
