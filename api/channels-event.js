@@ -29,9 +29,9 @@ export default async (req, res) => {
     case "channel_auth":
       console.log("Channel authing!");
 
-      if (channel.includes(":")) {
+      if (channel.includes(";")) {
         const secret = channel.substring(
-          channel.indexOf(":") + 1,
+          channel.indexOf(";") + 1,
           channel.length
         );
         const hashifiedPassword = payload.password
