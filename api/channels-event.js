@@ -15,38 +15,12 @@ const pusher = new Pusher({
   cluster,
 });
 
-const channels = new Channels({
-  appId,
-  key,
-  secret,
-  cluster,
-});
-
-const activeChannels = {};
-const activeUsers = {};
-
-function addChannel(channel, password) {
-  const newChannel = {
-    isPasswordProtected: !!password,
-    password,
-    activeUsers: {},
-  };
-
-  activeChannels[channel] = newChannel;
-
-  return newChannel;
-}
-
-function addUser(userID, channel, username, currentLayer) {
-  const newUser = {
-    username,
-    channel,
-    currentLayer,
-  };
-  activeUsers[userID] = newUser;
-
-  return newUser;
-}
+// const channels = new Channels({
+//   appId,
+//   key,
+//   secret,
+//   cluster,
+// });
 
 export default async (req, res) => {
   console.log("channels event");
@@ -58,114 +32,14 @@ export default async (req, res) => {
   const payload = req.body?.payload || {};
 
   switch (action) {
-    case "connection":
-      let activeChannel = activeChannels[channel];
-
-      if (!activeChannel) {
-        activeChannel = addChannel(channel, payload.password);
-      }
-
-      if (activeChannel.activeUsers[payload.userID]) {
-        break;
-      }
-
-      if (activeChannel.isPasswordProtected) {
-        break;
-      }
-
-      const newUser = addUser(
-        payload.userID,
-        channel,
-        username,
-        payload.initialLayer
-      );
-
-      activeChannels[channel].activeUsers[payload.userID] = newUser;
-
-      await channels.trigger(
-        channel,
-        "new_user_connected",
-        {
-          username,
-          initialLayer: payload.initialLayer,
-          userID: payload.userID,
-        },
-        { socket_id: socketID }
-      );
-
-      await channels.sendToUser(payload.userID, "new_connection_payload", {
-        channel: Object.entries(activeChannels[channel].activeUsers),
-      });
-      break;
-    case "layer_changed":
-      activeUsers[payload.userID].currentLayer = payload.newLayer;
-
-      await channels.trigger(
-        channel,
-        "user_layer_changed",
-        {
-          username,
-          newLayer: payload.newLayer,
-          userID: payload.userID,
-        },
-        { socket_id: socketID }
-      );
-      break;
-    case "user_disconnected":
-      if (!activeUsers[payload.userID]) {
-        break;
-      }
-
-      await channels.trigger(
-        activeUsers[payload.userID].channel,
-        "user_disconnected",
-        {
-          userID: payload.userID,
-        }
-      );
-
-      const userChannel = activeUsers[payload.userID].channel;
-      delete activeChannels[userChannel].activeUsers[payload.userID];
-
-      if (Object.keys(activeChannels[userChannel].activeUsers).length === 0) {
-        delete activeChannels[userChannel];
-      }
-
-      delete activeUsers[payload.userID];
-      break;
     case "channel_auth":
       console.log("Channel authing!");
 
-      if (
-        activeChannels[channel].isPasswordProtected &&
-        payload.password !== activeChannels[channel].password
-      ) {
+      if (false) {
         return res.status(403).send({});
       }
 
-      const newAuthedUser = addUser(
-        payload.userID,
-        channel,
-        username,
-        payload.initialLayer
-      );
-
-      activeChannels[channel].activeUsers[payload.userID] = newAuthedUser;
-
-      await channels.trigger(
-        channel,
-        "new_user_connected",
-        {
-          username,
-          initialLayer: payload.initialLayer,
-          userID: payload.userID,
-        },
-        { socket_id: socketID }
-      );
-
-      await channels.sendToUser(payload.userID, "new_connection_payload", {
-        channel: Object.entries(activeChannels[channel].activeUsers),
-      });
+      console.log(await pusher.get(`/channels/${channel}`));
 
       const authResponse = pusher.authorizeChannel(socketID, channel, {
         user_id: socketID,
