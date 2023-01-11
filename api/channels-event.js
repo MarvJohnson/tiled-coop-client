@@ -43,54 +43,11 @@ export default async (req, res) => {
         }
       }
 
-      let host = null;
-
-      try {
-        const pusherRes = await pusher.get({
-          path: `/channels/${channel}/users`,
-        });
-
-        if (pusherRes.status === 200) {
-          const pusherChannelData = await pusherRes.json();
-          console.log(pusherChannelData);
-
-          host = pusherChannelData.users.find((user) => user.user_info.isHost);
-        }
-      } catch (err) {
-        console.log("failed fetching user info");
-
-        return res
-          .status(403)
-          .send({ errorMessage: "Failed fetching channel info" });
-      }
-
-      try {
-        const pusherRes = await pusher.get({
-          path: `/channels/${channel}`,
-        });
-
-        console.log(pusherRes);
-
-        if (pusherRes.status === 200) {
-          const pusherChannelData = await pusherRes.json();
-
-          console.log(pusherChannelData);
-        }
-      } catch (err) {
-        console.log("failed fetching channel info");
-      }
-
-      if (host && payload.password !== host?.user_info.password) {
-        return res.status(403).send({ errorMessage: "Incorrect password!" });
-      }
-
       const authResponse = pusher.authorizeChannel(socketID, channel, {
         user_id: socketID,
         user_info: {
           username,
           currentLayer: payload.initialLayer,
-          isHost: !host,
-          password: payload.password,
         },
       });
       console.log(JSON.stringify(authResponse));
