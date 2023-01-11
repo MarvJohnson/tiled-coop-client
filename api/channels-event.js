@@ -41,9 +41,9 @@ export default async (req, res) => {
 
         if (pusherRes.status === 200) {
           const pusherChannelData = await pusherRes.json();
+          console.log(pusherChannelData);
 
           host = pusherChannelData.users.find((user) => user.user_info.isHost);
-          console.log(pusherChannelData);
         }
       } catch (err) {
         console.log("failed fetching channel info");
