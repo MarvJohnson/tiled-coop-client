@@ -46,11 +46,27 @@ export default async (req, res) => {
           host = pusherChannelData.users.find((user) => user.user_info.isHost);
         }
       } catch (err) {
-        console.log("failed fetching channel info");
+        console.log("failed fetching user info");
 
         return res
           .status(403)
           .send({ errorMessage: "Failed fetching channel info" });
+      }
+
+      try {
+        const pusherRes = await pusher.get({
+          path: `/channels/${channel}`,
+        });
+
+        console.log(pusherRes);
+
+        if (pusherRes.status === 200) {
+          const pusherChannelData = await pusherRes.json();
+
+          console.log(pusherChannelData);
+        }
+      } catch (err) {
+        console.log("failed fetching channel info");
       }
 
       if (host && payload.password !== host?.user_info.password) {
