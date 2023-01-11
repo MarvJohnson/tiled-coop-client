@@ -1,5 +1,4 @@
 import Pusher from "pusher";
-import Channels from "pusher";
 
 const {
   APP_ID: appId,
@@ -14,13 +13,6 @@ const pusher = new Pusher({
   secret,
   cluster,
 });
-
-// const channels = new Channels({
-//   appId,
-//   key,
-//   secret,
-//   cluster,
-// });
 
 export default async (req, res) => {
   console.log("channels event");
@@ -39,7 +31,11 @@ export default async (req, res) => {
         return res.status(403).send({});
       }
 
-      console.log(await pusher.get(`/channels/${channel}`));
+      try {
+        console.log(await pusher.get(`/channels/${channel}`));
+      } catch (err) {
+        console.log("failed fetching channel info");
+      }
 
       const authResponse = pusher.authorizeChannel(socketID, channel, {
         user_id: socketID,
