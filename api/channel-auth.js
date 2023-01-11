@@ -1,4 +1,5 @@
 export default async (req, res) => {
+  console.log("channel-authing!");
   console.log(JSON.stringify(req.body));
   const {
     username,
