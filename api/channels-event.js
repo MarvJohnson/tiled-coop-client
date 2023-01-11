@@ -136,7 +136,10 @@ export default async (req, res) => {
     case "channel_auth":
       console.log("Channel authing!");
 
-      if (payload.password !== activeChannels[channel].password) {
+      if (
+        activeChannels[channel].isPasswordProtected &&
+        payload.password !== activeChannels[channel].password
+      ) {
         return res.status(403).send({});
       }
 
