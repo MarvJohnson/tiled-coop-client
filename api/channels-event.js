@@ -168,6 +168,7 @@ export default async (req, res) => {
       });
 
       const authResponse = pusher.authorizeChannel(socketID, channel, {
+        user_id: socketID,
         user_info: {
           username,
           currentLayer: payload.initialLayer,
