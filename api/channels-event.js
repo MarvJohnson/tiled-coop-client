@@ -164,7 +164,10 @@ export default async (req, res) => {
         channel: Object.entries(activeChannels[channel].activeUsers),
       });
 
-      const authResponse = pusher.authorizeChannel(socketID, channel);
+      const authResponse = pusher.authorizeChannel(socketID, channel, {
+        username,
+        currentLayer: payload.initialLayer,
+      });
       console.log(JSON.stringify(authResponse));
       return res.status(200).send(authResponse);
     case "sync_upload":
