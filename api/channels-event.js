@@ -31,7 +31,7 @@ export default async (req, res) => {
 
       if (channel.includes(":")) {
         const secret = channel.substring(
-          channel.findIndex(":") + 1,
+          channel.indexOf(":") + 1,
           channel.length
         );
         const hashifiedPassword = payload.password
