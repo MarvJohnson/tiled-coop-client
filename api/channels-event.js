@@ -1,4 +1,5 @@
 import Pusher from "pusher";
+import crypto from "crypto";
 
 const {
   APP_ID: appId,
@@ -28,8 +29,18 @@ export default async (req, res) => {
     case "channel_auth":
       console.log("Channel authing!");
 
-      if (false) {
-        return res.status(403).send({});
+      if (channel.includes(":")) {
+        const secret = channel.substring(
+          channel.findIndex(":") + 1,
+          channel.length
+        );
+        const hashifiedPassword = payload.password
+          ? crypto.createHash("md5").update(payload.password).digest("hex")
+          : "";
+
+        if (hashifiedPassword !== secret) {
+          return res.status(403).send({});
+        }
       }
 
       let host = null;
