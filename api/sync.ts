@@ -25,7 +25,7 @@ export default async (req: Request) => {
     console.log("response status", response.status);
     console.log("response text", await response.text());
 
-    return response;
+    return new Response(await response.text());
   } catch (err) {
     console.log(`
     An error occured while posting to pastebin!
