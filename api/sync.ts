@@ -22,6 +22,7 @@ export default async (req: Request) => {
       body: formData,
     });
 
+    console.log("response status", response.status);
     console.log("response text", await response.text());
 
     return response;
