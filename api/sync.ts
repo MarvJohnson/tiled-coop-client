@@ -15,16 +15,25 @@ export default async (req: Request) => {
   console.log("form data");
   console.log(formData.entries());
 
-  const response = await fetch("https://pastebin.com/api/api_post.php", {
-    method: "POST",
-    body: formData,
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  try {
+    const response = await fetch("https://pastebin.com/api/api_post.php", {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-  console.log("response body");
-  console.log(response.body);
+    console.log("response body");
+    console.log(response.body);
 
-  return new Response(response.body);
+    return new Response(response.body);
+  } catch (err) {
+    console.log(`
+    An error occured while posting to pastebin!
+
+    ${err}
+    `);
+    return new Response();
+  }
 };
