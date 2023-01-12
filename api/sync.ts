@@ -5,12 +5,15 @@ export const config = {
 };
 
 export default async (req: Request) => {
-  console.log(req);
-  console.log(req.url);
-  console.log(req.body);
+  console.log("req", req);
+  console.log("url", req.url);
+  console.log("body", req.body);
 
   const formData = await req.formData();
   formData.append("api_dev_key", PASTEBIN_API_KEY);
+
+  console.log("form data");
+  console.log(formData.entries());
 
   const response = await fetch("https://pastebin.com/api/api_post.php", {
     method: "POST",
