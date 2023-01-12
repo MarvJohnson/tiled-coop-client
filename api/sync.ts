@@ -20,7 +20,8 @@ export default async (req: Request) => {
     },
   });
 
-  console.log(response);
+  console.log("response body");
+  console.log(response.body);
 
   return new Response(response.body);
 };
