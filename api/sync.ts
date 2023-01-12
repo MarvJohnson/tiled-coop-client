@@ -11,10 +11,10 @@ export default async (req: Request) => {
 
   const formData = await req.formData();
   const file = formData.get("api_paste_code") as File;
+  formData.set("api_paste_code", await file.text());
   formData.append("api_dev_key", PASTEBIN_API_KEY);
 
   console.log("form data", Array.from(formData.entries()));
-  console.log("file", await file.text());
 
   try {
     const response = await fetch("https://pastebin.com/api/api_post.php", {
