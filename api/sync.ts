@@ -18,9 +18,6 @@ export default async (req: Request) => {
     const response = await fetch("https://pastebin.com/api/api_post.php", {
       method: "POST",
       body: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
     });
 
     console.log("response text", await response.text());
