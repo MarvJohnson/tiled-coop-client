@@ -52,10 +52,6 @@ export default async (req, res) => {
       });
       console.log(JSON.stringify(authResponse));
       return res.status(200).send(authResponse);
-    case "sync_upload":
-      console.log("sync upload");
-      console.log(req.body);
-      break;
   }
 
   res.status(200).end("Received message!");
