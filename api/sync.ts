@@ -23,10 +23,15 @@ export default async (req: Request, res: Response) => {
       }
     );
 
-    console.log("response status", pastebinResponse.status);
-    console.log("response text", await pastebinResponse.text());
-    const response = new Response(await pastebinResponse.text());
-    response.headers.set("Content-Type", "text/plain");
+    console.log("pastebinResponse status", pastebinResponse.status);
+    const pastebinLink = await pastebinResponse.text();
+    console.log("pastebinResponse text", pastebinLink);
+    const response = new Response(pastebinLink, {
+      status: 201,
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    });
 
     return response;
   } catch (err) {
